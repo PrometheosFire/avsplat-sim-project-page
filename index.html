@@ -1,0 +1,123 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Photorealistic closed-loop simulation for autonomous driving using 3D Gaussian Splatting. MSc thesis by Dinis Matos.">
+  <meta property="og:title" content="AVSplat-Sim: Photorealistic Closed-Loop Simulation">
+  <meta property="og:description" content="A closed-loop driving simulator built from a single recorded drive using 3D Gaussian Splatting.">
+  <meta property="og:image" content="assets/teaser.png">
+  <title>AVSplat-Sim | Photorealistic Closed-Loop Simulation</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=DM+Sans:wght@400;500;600;700&family=Newsreader:opsz,wght@6..72,400;6..72,500;6..72,600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <header class="site-header">
+    <div class="site-header__inner">
+      <a class="brand" href="#top" aria-label="AVSplat-Sim home">
+        <span class="brand__mark">AV</span>
+        <span>AVSplat-Sim</span>
+      </a>
+      <nav class="site-nav" aria-label="Main navigation">
+        <a href="#overview">Overview</a>
+        <a href="#videos">Videos</a>
+        <a href="https://github.com/PrometheosFire/AVSplat-Sim" target="_blank" rel="noopener noreferrer">Code</a>
+      </nav>
+    </div>
+  </header>
+
+  <main id="top">
+    <section class="hero page-width" aria-labelledby="page-title">
+      <div class="hero__copy">
+        <p class="eyebrow"><span class="eyebrow__rule"></span>MSc Thesis <span class="eyebrow__separator">/</span> Autonomous Driving</p>
+        <h1 id="page-title">Photorealistic Closed-Loop Simulation for Autonomous Driving using 3D Gaussian Splatting</h1>
+        <p class="hero__author">Dinis Matos <span class="hero__affiliation">Instituto Superior T&eacute;cnico</span></p>
+        <p class="hero__supervisors">Supervisors: Prof. Pedro U. Lima and Dr. Pedro Monteiro</p>
+        <div class="hero__actions">
+          <a class="button button--primary" href="#videos">View video results</a>
+          <a class="button button--secondary" href="https://github.com/PrometheosFire/AVSplat-Sim" target="_blank" rel="noopener noreferrer">Project code <span aria-hidden="true">&#8599;</span></a>
+        </div>
+      </div>
+
+      <figure class="hero-figure">
+        <img src="assets/teaser.png" alt="A reconstructed urban driving scene with a controllable red vehicle in the foreground.">
+        <figcaption>
+          <span>AVSplat-Sim | Reconstructed driving scene</span>
+          <span class="figure-tag">PROJECT OVERVIEW</span>
+        </figcaption>
+      </figure>
+    </section>
+
+    <section class="abstract section-rule" id="overview" aria-labelledby="abstract-title">
+      <div class="abstract__inner page-width">
+        <div class="section-label">
+          <p class="eyebrow">01 <span class="eyebrow__separator">/</span> Overview</p>
+          <h2 id="abstract-title">Abstract</h2>
+        </div>
+        <div class="abstract__copy">
+          <p>Validating a driving policy requires closed-loop simulation, in which the system under test acts on its environment and receives the consequences as its next observation, which replaying a recorded log cannot provide; photorealistic reconstructions of a real drive stay faithful only along the recorded path, with the vehicles moving through it baked into the background.</p>
+          <p>This thesis builds a closed-loop simulator from a single recorded drive, using only its five fisheye cameras and a consumer Graphics Processing Unit (GPU). A 3D Gaussian Splatting (3DGS) reconstruction represents each moving vehicle as a separately controllable rigid node, posed by a multi-camera tracker and a kinematic fit solved before training. A pseudo-view loop extends the scene off that path, rendering it from laterally shifted trajectories, cleaning those renders with a reference-conditioned diffusion model and banking them as training data, so the generative component is spent offline.</p>
+          <p>Thirteen WayveScenes101 scenes were trained under one configuration. The final models reached a median Peak Signal-to-Noise Ratio of 24.12 dB on held-out frames, while the vehicles rendered 4.2 to 8.6 dB below the frame around them. Kernel Inception Distance rose with lateral offset in every scene, and the pseudo-view bank cut the 3 m penalty in 14 of 16 curves, at a cost on the recorded path. The simulator rendered one camera at 19.7 to 27.7 frames per second, above the 10 Hz recording rate.</p>
+          <p>Traffic stays controllable rather than reactive and nothing models collision, so the loop this work closes is the one around the rendered viewpoint alone.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="videos" id="videos" aria-labelledby="videos-title">
+      <div class="videos__inner page-width">
+        <div class="videos__heading">
+          <p class="eyebrow eyebrow--light">02 <span class="eyebrow__separator">/</span> Supplementary material</p>
+          <h2 id="videos-title">Video results</h2>
+          <p>The project-page link is live. Demonstration clips will be added here after thesis delivery.</p>
+        </div>
+
+        <div class="video-state" role="status">
+          <div class="video-state__stamp">MP4<br>LIBRARY</div>
+          <div>
+            <p class="video-state__label">Clips in preparation</p>
+            <p class="video-state__text">This section is reserved for the reconstruction, off-path rendering, and closed-loop simulation videos.</p>
+          </div>
+          <span class="video-state__number">03</span>
+        </div>
+
+        <div class="video-topics" aria-label="Planned video topics">
+          <article class="video-topic">
+            <span class="video-topic__number">01</span>
+            <div>
+              <h3>Dynamic reconstruction</h3>
+              <p>Scene rendering with separately controllable moving vehicles.</p>
+            </div>
+            <span class="video-topic__status">Coming soon</span>
+          </article>
+          <article class="video-topic">
+            <span class="video-topic__number">02</span>
+            <div>
+              <h3>Off-path views</h3>
+              <p>Laterally shifted trajectories and the pseudo-view loop.</p>
+            </div>
+            <span class="video-topic__status">Coming soon</span>
+          </article>
+          <article class="video-topic">
+            <span class="video-topic__number">03</span>
+            <div>
+              <h3>Closed-loop simulation</h3>
+              <p>Vehicle control inside the reconstructed driving scene.</p>
+            </div>
+            <span class="video-topic__status">Coming soon</span>
+          </article>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="site-footer__inner page-width">
+      <span>AVSplat-Sim</span>
+      <span>Dinis Matos <span class="footer-separator">/</span> Instituto Superior T&eacute;cnico</span>
+      <a href="https://github.com/PrometheosFire/AVSplat-Sim" target="_blank" rel="noopener noreferrer">Source code &#8599;</a>
+    </div>
+  </footer>
+</body>
+</html>
