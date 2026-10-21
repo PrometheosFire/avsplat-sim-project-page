@@ -42,10 +42,13 @@
       </div>
 
       <figure class="hero-figure">
-        <img src="assets/teaser.png" alt="A reconstructed urban driving scene with a controllable red vehicle in the foreground.">
+        <video controls playsinline loop preload="none" poster="assets/posters/reconstruction-rig-1.jpg" width="1920" height="722" aria-label="Five-camera reconstruction drive-through">
+          <source src="assets/videos/reconstruction-rig-1.mp4" type="video/mp4">
+          <a href="assets/videos/reconstruction-rig-1.mp4">Download the five-camera reconstruction video.</a>
+        </video>
         <figcaption>
-          <span>AVSplat-Sim | Reconstructed driving scene</span>
-          <span class="figure-tag">PROJECT OVERVIEW</span>
+          <span>Five synchronized camera views from one reconstructed drive.</span>
+          <span class="figure-tag">10 FPS | RECORDED DRIVING SPEED</span>
         </figcaption>
       </figure>
     </section>
@@ -81,44 +84,104 @@
         <div class="videos__heading">
           <p class="eyebrow eyebrow--light">02 <span class="eyebrow__separator">/</span> Supplementary material</p>
           <h2 id="videos-title">Video results</h2>
-          <p>The project-page link is live. Demonstration clips will be added here after thesis delivery.</p>
+          <p>From a five-camera reconstruction to off-path views and interactive simulation.</p>
         </div>
 
-        <div class="video-state" role="status">
-          <div class="video-state__stamp">MP4<br>LIBRARY</div>
-          <div>
-            <p class="video-state__label">Clips in preparation</p>
-            <p class="video-state__text">This section is reserved for the reconstruction, off-path rendering, and closed-loop simulation videos.</p>
+        <nav class="media-nav" aria-label="Video topics">
+          <a href="#reconstruction">Reconstruction</a>
+          <a href="#pseudo-view-loop">Pseudo-view loop</a>
+          <a href="#simulation">Simulation</a>
+        </nav>
+
+        <section class="media-section" id="reconstruction" aria-labelledby="reconstruction-title">
+          <div class="media-section__heading">
+            <span class="media-section__number">01</span>
+            <div>
+              <h3 id="reconstruction-title">Dynamic reconstruction</h3>
+              <p>The drive-through above and the second scene below share the same training configuration. The camera views are rendered from a single set of Gaussians.</p>
+            </div>
           </div>
-          <span class="video-state__number">03</span>
-        </div>
 
-        <div class="video-topics" aria-label="Planned video topics">
-          <article class="video-topic">
-            <span class="video-topic__number">01</span>
+          <figure class="media-figure">
+            <h4 id="second-scene-title">A second scene, the same camera rig</h4>
+            <video controls playsinline loop preload="none" poster="assets/posters/reconstruction-rig-2.jpg" width="1920" height="722" aria-labelledby="second-scene-title" aria-describedby="second-scene-caption">
+              <source src="assets/videos/reconstruction-rig-2.mp4" type="video/mp4">
+              <a href="assets/videos/reconstruction-rig-2.mp4">Download the second reconstruction video.</a>
+            </video>
+            <figcaption id="second-scene-caption">Forward-left, forward, and forward-right cameras above; rear-facing side cameras below. Playback follows the recorded driving speed at 10 fps.</figcaption>
+          </figure>
+
+          <figure class="media-figure">
+            <h4 id="agents-title">Vehicles separate from the background</h4>
+            <video controls playsinline loop preload="none" poster="assets/posters/dynamic-agents.jpg" width="1920" height="540" aria-labelledby="agents-title" aria-describedby="agents-caption">
+              <source src="assets/videos/dynamic-agents.mp4" type="video/mp4">
+              <a href="assets/videos/dynamic-agents.mp4">Download the dynamic-agents comparison.</a>
+            </video>
+            <figcaption id="agents-caption">The same frames with the full scene on the left and only the dynamic agents on the right. Each tracked vehicle has its own rigid Gaussian node, carried by its fitted trajectory. Playback: 10 fps.</figcaption>
+          </figure>
+        </section>
+
+        <section class="media-section" id="pseudo-view-loop" aria-labelledby="pseudo-title">
+          <div class="media-section__heading">
+            <span class="media-section__number">02</span>
             <div>
-              <h3>Dynamic reconstruction</h3>
-              <p>Scene rendering with separately controllable moving vehicles.</p>
+              <h3 id="pseudo-title">Beyond the recorded path</h3>
+              <p>Off-path renders are cleaned with a reference-conditioned diffusion model and banked as training data. The loop transfers that supervision into the reconstruction offline.</p>
             </div>
-            <span class="video-topic__status">Coming soon</span>
-          </article>
-          <article class="video-topic">
-            <span class="video-topic__number">02</span>
+          </div>
+
+          <figure class="media-figure">
+            <h4 id="offsets-title">Moving away from the capture trajectory</h4>
+            <video controls playsinline loop preload="none" poster="assets/posters/lateral-offsets.jpg" width="1920" height="1080" aria-labelledby="offsets-title" aria-describedby="offsets-caption">
+              <source src="assets/videos/lateral-offsets.mp4" type="video/mp4">
+              <a href="assets/videos/lateral-offsets.mp4">Download the lateral-offset comparison.</a>
+            </video>
+            <figcaption id="offsets-caption">Synchronized renders at 0, 1, 2, and 3 m lateral offsets, arranged from top left to bottom right. Displacement exposes regions less constrained by the captured views. Playback: 10 fps.</figcaption>
+          </figure>
+
+          <figure class="media-figure" aria-labelledby="cleaning-title">
+            <h4 id="cleaning-title">Reference-conditioned cleaning</h4>
+            <div class="cleaning-comparison">
+              <div>
+                <p class="comparison-label">Shifted render</p>
+                <img src="assets/images/shifted-render.jpg" width="960" height="540" loading="lazy" decoding="async" alt="Render three meters off the recorded path, with stretched road texture and distorted vegetation.">
+              </div>
+              <div>
+                <p class="comparison-label">Diffusion-cleaned image</p>
+                <img src="assets/images/diffusion-cleaned.jpg" width="960" height="540" loading="lazy" decoding="async" alt="Reference-conditioned diffusion output for the shifted render, showing a more coherent road surface and vegetation.">
+              </div>
+            </div>
+            <figcaption>The shifted render is cleaned using a real frame from the same camera and instant as a reference. This is the image-cleaning stage, not a render from the retrained model.</figcaption>
+          </figure>
+
+          <figure class="media-figure">
+            <h4 id="loop-title">Before and after the pseudo-view loop</h4>
+            <video controls playsinline loop preload="none" poster="assets/posters/pseudo-view-loop.jpg" width="1920" height="540" aria-labelledby="loop-title" aria-describedby="loop-caption">
+              <source src="assets/videos/pseudo-view-loop.mp4" type="video/mp4">
+              <a href="assets/videos/pseudo-view-loop.mp4">Download the pseudo-view-loop comparison.</a>
+            </video>
+            <figcaption id="loop-caption">The same viewpoint, 3 m off the recorded trajectory, before the loop on the left and after retraining on the right. Both panels are reconstruction renders; diffusion is used offline, not during playback. Playback: 10 fps.</figcaption>
+          </figure>
+        </section>
+
+        <section class="media-section" id="simulation" aria-labelledby="simulation-title">
+          <div class="media-section__heading">
+            <span class="media-section__number">03</span>
             <div>
-              <h3>Off-path views</h3>
-              <p>Laterally shifted trajectories and the pseudo-view loop.</p>
+              <h3 id="simulation-title">Closed-loop simulation</h3>
+              <p>The reconstructed scene becomes an interactive simulator with ego control and independently controllable vehicles.</p>
             </div>
-            <span class="video-topic__status">Coming soon</span>
-          </article>
-          <article class="video-topic">
-            <span class="video-topic__number">03</span>
-            <div>
-              <h3>Closed-loop simulation</h3>
-              <p>Vehicle control inside the reconstructed driving scene.</p>
-            </div>
-            <span class="video-topic__status">Coming soon</span>
-          </article>
-        </div>
+          </div>
+
+          <figure class="media-figure">
+            <h4 id="simulator-video-title">Inside the simulator</h4>
+            <video controls playsinline preload="none" poster="assets/posters/closed-loop-simulation.jpg" width="1920" height="1080" aria-labelledby="simulator-video-title" aria-describedby="simulator-caption">
+              <source src="assets/videos/closed-loop-simulation.mp4" type="video/mp4">
+              <a href="assets/videos/closed-loop-simulation.mp4">Download the simulator recording.</a>
+            </video>
+            <figcaption id="simulator-caption">A screen recording of the simulator interface, with its original timing preserved. Ego control, scenario authoring, and asset replacement are available in the simulator; traffic is controllable rather than reactive, and collision physics is not modeled.</figcaption>
+          </figure>
+        </section>
       </div>
     </section>
   </main>
