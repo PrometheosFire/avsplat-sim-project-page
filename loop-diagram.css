@@ -1,0 +1,89 @@
+.loop-diagram { margin: 32px 0 0; padding: 28px; background: var(--paper); color: var(--ink); }
+.loop-diagram__heading { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 12px; margin-bottom: 24px; }
+.loop-diagram__heading h4 { margin: 0; font: 500 2rem/1.1 "Newsreader", Georgia, serif; }
+.loop-diagram .target-label { display: flex; gap: 10px; align-items: baseline; border-bottom: 2px solid var(--accent); padding-bottom: 6px; font: .75rem "DM Mono", monospace; }
+.loop-diagram .target-label strong { font-size: 1.1rem; color: var(--accent); }
+.loop-diagram .curriculum-controls { display: flex; align-items: center; gap: 22px; margin-bottom: 20px; }
+.loop-diagram .mode-toggle { flex-shrink: 0; min-width: 0; margin: 0; padding: 0; border: 0; }
+.loop-diagram .mode-toggle legend { margin-bottom: 7px; color: var(--muted); font: .65rem "DM Mono", monospace; }
+.loop-diagram .mode-options { display: flex; gap: 3px; padding: 3px; border: 1px solid var(--rule); border-radius: 4px; }
+.loop-diagram .mode-options label { position: relative; cursor: pointer; }
+.loop-diagram .mode-options input { position: absolute; width: 1px; height: 1px; opacity: 0; }
+.loop-diagram .mode-options span { display: grid; min-width: 116px; min-height: 40px; padding: 8px 12px; place-items: center; border-radius: 2px; font-size: .75rem; color: var(--muted); }
+.loop-diagram .mode-options input:checked + span { background: var(--ink); color: var(--lime); }
+.loop-diagram .mode-options input:focus-visible + span { outline: 2px solid var(--accent); outline-offset: 2px; }
+.loop-diagram .mode-note { max-width: 38em; min-height: 3.2em; margin: 18px 0 0; color: var(--muted); font-size: .76rem; line-height: 1.6; }
+.loop-diagram .round-tabs { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); border-bottom: 1px solid var(--rule); }
+.loop-diagram .round-tabs button { display: flex; flex-direction: column; gap: 6px; min-height: 70px; padding: 13px 12px; border: 0; border-bottom: 3px solid transparent; background: transparent; color: var(--muted); font: 600 .86rem "DM Sans", sans-serif; cursor: pointer; text-align: left; }
+.loop-diagram .round-tabs small { font-size: .7rem; font-weight: 400; }
+.loop-diagram .round-tabs button[aria-selected="true"] { border-bottom-color: var(--accent); background: #edf0e5; color: var(--ink); }
+.loop-diagram .round-tabs button:focus-visible { outline: 2px solid var(--accent); outline-offset: -3px; }
+.loop-diagram .round-panel { margin-top: 26px; }
+.loop-diagram .diagram-layout { display: grid; grid-template-columns: minmax(0, 1.35fr) minmax(280px, 1fr); gap: 38px; }
+.loop-diagram .trajectory-figure { margin: 0; min-width: 0; }
+.loop-diagram .offset-labels { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); margin-bottom: 10px; text-align: center; }
+.loop-diagram .offset-labels span { font: 500 .85rem "DM Mono", monospace; }
+.loop-diagram .offset-labels small { display: block; margin-top: 4px; color: var(--muted); font: .65rem "DM Sans", sans-serif; }
+.loop-diagram .offset-labels .target { color: var(--accent); }
+.loop-diagram .offset-labels .offset-status { min-height: 2.4em; margin-top: 6px; font-size: .6rem; line-height: 1.2; }
+.loop-diagram .offset-status[data-state="banked"], .loop-diagram .offset-status[data-state="both"] { color: var(--green); font-weight: 600; }
+.loop-diagram .offset-status[data-state="cleaning"] { color: var(--accent); }
+.loop-diagram .trajectory-map { display: block; width: 100%; height: auto; aspect-ratio: 560 / 320; background: #eef1eb; }
+.loop-diagram .trajectory { fill: none; stroke: #b7c1b6; stroke-width: 3; stroke-dasharray: 5 7; transition: stroke 180ms ease; }
+.loop-diagram .trajectory.recorded { stroke: var(--ink); stroke-width: 4; stroke-dasharray: none; }
+.loop-diagram .trajectory.banked { stroke: var(--green); stroke-width: 5; stroke-dasharray: none; }
+.loop-diagram .trajectory.cleaning { stroke: var(--accent); stroke-width: 5; stroke-dasharray: 13 5; }
+.loop-diagram .trajectory.banked.cleaning { stroke: var(--green); stroke-width: 7; stroke-dasharray: none; }
+.loop-diagram .cleaning-overlay { fill: none; stroke: var(--accent); stroke-width: 3; stroke-dasharray: 13 7; visibility: hidden; pointer-events: none; }
+.loop-diagram .cleaning-overlay.visible { visibility: visible; }
+.loop-diagram .pose { fill: var(--paper); stroke: #b7c1b6; stroke-width: 2; }
+.loop-diagram .banked-pose { fill: var(--green); stroke: var(--paper); }
+.loop-diagram .active-pose { fill: var(--accent); stroke: var(--paper); }
+.loop-diagram .banked-pose.active-pose { fill: var(--green); stroke: var(--accent); }
+.loop-diagram .legend { display: flex; flex-wrap: wrap; gap: 12px 18px; margin: 14px 0 10px; padding: 0; list-style: none; font-size: .68rem; color: var(--muted); }
+.loop-diagram .legend li { display: flex; align-items: center; gap: 7px; }
+.loop-diagram .swatch { width: 19px; border-top: 3px solid var(--green); }
+.loop-diagram .swatch.cleaning { border-top: 3px dashed var(--accent); }
+.loop-diagram .swatch.both { position: relative; border-top-width: 5px; }
+.loop-diagram .swatch.both::after { content: ""; position: absolute; inset: -4px 0 auto; border-top: 2px dashed var(--accent); }
+.loop-diagram .swatch.pending { border-top: 2px dotted #a5afa4; }
+.loop-diagram .trajectory-figure figcaption { color: var(--muted); font-size: .69rem; line-height: 1.6; }
+.loop-diagram .round-detail { min-width: 0; }
+.loop-diagram .round-detail h5 { margin: 8px 0 10px; font: 500 1.6rem/1.15 "Newsreader", Georgia, serif; }
+.loop-diagram .round-summary { min-height: 54px; margin-bottom: 18px; font-size: .82rem; line-height: 1.65; color: var(--muted); }
+.loop-diagram .detail-label { margin: 0; font: .65rem "DM Mono", monospace; color: var(--muted); text-transform: uppercase; }
+.loop-diagram .bank-table { width: 100%; border-collapse: collapse; margin: 10px 0 12px; table-layout: fixed; font-size: .75rem; }
+.loop-diagram .bank-table th, .loop-diagram .bank-table td { padding: 9px 0; text-align: left; border-bottom: 1px solid var(--rule); }
+.loop-diagram .bank-table th { color: var(--muted); font-weight: 400; font-size: .65rem; }
+.loop-diagram .bank-table th:first-child { width: 38%; }
+.loop-diagram .bank-table td:last-child { font-family: "DM Mono", monospace; color: var(--green); }
+.loop-diagram .bank-table .empty td:last-child { font-family: "DM Sans", sans-serif; color: var(--muted); }
+.loop-diagram .bank-note { min-height: 38px; color: var(--muted); font-size: .7rem; line-height: 1.6; }
+.loop-diagram .process { margin-top: 24px; padding: 20px 0; border-top: 1px solid var(--rule); border-bottom: 1px solid var(--rule); }
+.loop-diagram .process ol { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 24px; list-style: none; padding: 0; margin: 0; }
+.loop-diagram .process li { min-width: 0; border-left: 2px solid var(--rule); padding-left: 12px; }
+.loop-diagram .process li.active { border-left-color: var(--accent); }
+.loop-diagram .process li.inactive { opacity: .5; }
+.loop-diagram .process .step { color: var(--muted); font: .6rem "DM Mono", monospace; }
+.loop-diagram .process h5 { margin: 8px 0 7px; font-size: .85rem; font-weight: 600; }
+.loop-diagram .process p { margin: 0; font-size: .72rem; line-height: 1.6; color: var(--muted); }
+.loop-diagram .return-flow { display: flex; align-items: center; gap: 12px; margin: 16px 0 0; font-size: .74rem; color: var(--green); }
+.loop-diagram .return-flow::before { content: ""; flex: 1; height: 9px; border-bottom: 1px solid var(--green); border-left: 1px solid var(--green); }
+.loop-diagram .return-flow::after { content: ""; flex: 1; height: 9px; border-bottom: 1px solid var(--green); border-right: 1px solid var(--green); }
+.loop-diagram .study-note { margin: 22px 0 0; font-size: .67rem; line-height: 1.6; color: var(--muted); }
+@media (max-width: 760px) {
+  .loop-diagram { padding: 20px 16px; }
+  .loop-diagram .curriculum-controls { flex-direction: column; align-items: flex-start; gap: 10px; }
+  .loop-diagram .mode-options span { min-width: 100px; }
+  .loop-diagram .mode-note { min-height: 0; margin-top: 0; }
+  .loop-diagram .diagram-layout { grid-template-columns: minmax(0, 1fr); gap: 26px; }
+  .loop-diagram .round-detail { border-top: 1px solid var(--rule); padding-top: 20px; }
+  .loop-diagram .round-summary, .loop-diagram .bank-note { min-height: 0; }
+  .loop-diagram .process ol { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 22px 16px; }
+  .loop-diagram .round-tabs button { padding-inline: 6px; font-size: .77rem; }
+  .loop-diagram .round-tabs small { font-size: .62rem; }
+  .loop-diagram__heading h4 { font-size: 1.75rem; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .loop-diagram .trajectory { transition: none; }
+}

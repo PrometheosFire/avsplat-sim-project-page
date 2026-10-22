@@ -12,7 +12,9 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=DM+Sans:wght@400;500;600;700&family=Newsreader:opsz,wght@6..72,400;6..72,500;6..72,600&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="loop-diagram.css">
   <script src="site.js" defer></script>
+  <script src="loop-diagram.js" defer></script>
 </head>
 <body>
   <header class="site-header">
@@ -137,6 +139,85 @@
               <p>Off-path renders are cleaned with a reference-conditioned diffusion model and banked as training data. The loop transfers that supervision into the reconstruction offline.</p>
             </div>
           </div>
+
+          <section class="loop-diagram" id="loop-diagram" aria-labelledby="loop-diagram-title">
+            <div class="loop-diagram__heading">
+              <h4 id="loop-diagram-title">The pseudo-view loop</h4>
+              <div class="target-label">Target offset <strong>&minus;3 m</strong></div>
+            </div>
+            <div class="curriculum-controls">
+              <fieldset class="mode-toggle">
+                <legend>Cleaning mode</legend>
+                <div class="mode-options">
+                  <label><input type="radio" name="schedule-mode" value="cumulative" checked><span>Cumulative</span></label>
+                  <label><input type="radio" name="schedule-mode" value="incremental"><span>Incremental</span></label>
+                </div>
+              </fieldset>
+              <p class="mode-note" id="mode-note" aria-live="polite">Clean every reached offset with the current model. Earlier bank entries remain.</p>
+            </div>
+            <div class="round-tabs" role="tablist" aria-label="Training round">
+              <button id="round-0" type="button" role="tab" aria-selected="true" aria-controls="round-panel" tabindex="0" data-round="0">Round 0<small>First clean</small></button>
+              <button id="round-1" type="button" role="tab" aria-selected="false" aria-controls="round-panel" tabindex="-1" data-round="1">Round 1<small>Extend to &minus;2 m</small></button>
+              <button id="round-2" type="button" role="tab" aria-selected="false" aria-controls="round-panel" tabindex="-1" data-round="2">Round 2<small>Extend to &minus;3 m</small></button>
+              <button id="round-3" type="button" role="tab" aria-selected="false" aria-controls="round-panel" tabindex="-1" data-round="3">Round 3<small>Final model</small></button>
+            </div>
+            <div class="round-panel" id="round-panel" role="tabpanel" aria-labelledby="round-0" tabindex="0">
+              <div class="diagram-layout">
+                <figure class="trajectory-figure">
+                  <div class="offset-labels"><span class="target">&minus;3 m<small>Target</small><small class="offset-status" data-offset-status="3">Not yet banked</small></span><span>&minus;2 m<small>Shifted</small><small class="offset-status" data-offset-status="2">Not yet banked</small></span><span>&minus;1 m<small>Shifted</small><small class="offset-status" data-offset-status="1">New cleaning</small></span><span>0 m<small>Recorded</small><small class="offset-status">Real frames</small></span></div>
+                  <svg class="trajectory-map" viewBox="0 0 560 320" role="img" aria-labelledby="map-title map-description">
+                    <title id="map-title">Lateral shift curriculum, round 0</title>
+                    <desc id="map-description">The recorded path and three shifted copies. Round 0 cleans the minus one meter path; the pseudo-view bank is initially empty.</desc>
+                    <defs>
+                      <pattern id="loop-grid" width="28" height="28" patternUnits="userSpaceOnUse"><path d="M 28 0 H 0 V 28" fill="none" stroke="#dce2d8" stroke-width=".6"/></pattern>
+                      <path id="shift-path-3" d="M70 305 C70 220 98 205 98 155 S70 65 70 15"/>
+                      <path id="shift-path-2" d="M210 305 C210 220 238 205 238 155 S210 65 210 15"/>
+                      <path id="shift-path-1" d="M350 305 C350 220 378 205 378 155 S350 65 350 15"/>
+                    </defs>
+                    <rect width="560" height="320" fill="url(#loop-grid)"/>
+                    <path d="M490 305 C490 220 518 205 518 155 S490 65 490 15" fill="none" stroke="#e0e5db" stroke-width="90"/>
+                    <use class="trajectory" data-offset="3" href="#shift-path-3"/>
+                    <use class="trajectory" data-offset="2" href="#shift-path-2"/>
+                    <use class="trajectory cleaning" data-offset="1" href="#shift-path-1"/>
+                    <use class="cleaning-overlay" data-cleaning-offset="3" href="#shift-path-3"/>
+                    <use class="cleaning-overlay" data-cleaning-offset="2" href="#shift-path-2"/>
+                    <use class="cleaning-overlay" data-cleaning-offset="1" href="#shift-path-1"/>
+                    <path class="trajectory recorded" d="M490 305 C490 220 518 205 518 155 S490 65 490 15"/>
+                    <g data-pose="3"><circle class="pose" cx="72" cy="266" r="5"/><circle class="pose" cx="98" cy="155" r="5"/><circle class="pose" cx="72" cy="52" r="5"/></g>
+                    <g data-pose="2"><circle class="pose" cx="212" cy="266" r="5"/><circle class="pose" cx="238" cy="155" r="5"/><circle class="pose" cx="212" cy="52" r="5"/></g>
+                    <g data-pose="1"><circle class="pose active-pose" cx="352" cy="266" r="5"/><circle class="pose active-pose" cx="378" cy="155" r="5"/><circle class="pose active-pose" cx="352" cy="52" r="5"/></g>
+                    <g fill="#19221c" stroke="#f7f8f4" stroke-width="2"><circle cx="492" cy="266" r="5"/><circle cx="518" cy="155" r="5"/><circle cx="492" cy="52" r="5"/></g>
+                  </svg>
+                  <ul class="legend"><li><span class="swatch cleaning"></span>New cleaning</li><li><span class="swatch"></span>Banked earlier</li><li><span class="swatch both"></span>Banked + re-clean</li><li><span class="swatch pending"></span>Not yet banked</li></ul>
+                  <figcaption>Forward-camera paths, shown schematically. All offsets are rendered every round. Earlier pseudo-views stay banked when fresh views at the same offset are cleaned.</figcaption>
+                </figure>
+                <div class="round-detail" aria-live="polite" aria-atomic="true">
+                  <p class="detail-label" id="model-label">Model 0 / real frames only</p>
+                  <h5 id="round-title">Start close to the recording.</h5>
+                  <p class="round-summary" id="round-summary">Train on the real frames, then clean selected renders at &minus;1 m using a real frame from the same camera and instant as reference.</p>
+                  <p class="detail-label">Pseudo-view bank entering this round</p>
+                  <table class="bank-table"><thead><tr><th scope="col">Generated in</th><th scope="col">Cleaned offsets</th></tr></thead><tbody id="bank-rows"><tr class="empty"><td>No earlier round</td><td>Empty bank</td></tr></tbody></table>
+                  <p class="bank-note" id="bank-note">Real frames remain available in every round. The first cleaned views enter the bank for round 1.</p>
+                </div>
+              </div>
+              <div class="process">
+                <ol>
+                  <li><span class="step">01</span><h5>Train from scratch</h5><p id="train-detail">Real frames only.</p></li>
+                  <li><span class="step">02</span><h5>Render shifted views</h5><p>All offsets: &minus;1, &minus;2, &minus;3 m.</p></li>
+                  <li class="active" id="clean-step"><span class="step">03</span><h5>Reference-conditioned clean</h5><p id="clean-detail">Selected views at &minus;1 m.</p></li>
+                  <li class="active" id="bank-step"><span class="step">04</span><h5>Append to the bank</h5><p id="append-detail">Retain the cleaned images and their shifted poses.</p></li>
+                </ol>
+                <p class="return-flow" id="return-flow">Real frames + accumulated bank feed the next round.</p>
+              </div>
+            </div>
+            <p class="study-note" id="study-note">Example: the default one-sided cumulative curriculum, with a 1 m step and a &minus;3 m target. Earlier offsets are cleaned again at different selected timestamps; all earlier entries remain. Completing the target schedule is not a guarantee of image quality.</p>
+            <script id="round-data" type="application/json">
+              {
+                "cumulative": [[-1], [-1, -2], [-1, -2, -3]],
+                "incremental": [[-1], [-2], [-3]]
+              }
+            </script>
+          </section>
 
           <figure class="media-figure">
             <h4 id="offsets-title">Moving away from the capture trajectory</h4>

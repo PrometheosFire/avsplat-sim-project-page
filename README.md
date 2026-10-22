@@ -45,6 +45,12 @@ Add the new MP4 and poster under the existing asset directories, then add a butt
 
 No JavaScript change is required. `site.js` switches the source, poster, accessible label, selected state, and fallback links. A new scene starts from the beginning; playback resumes only if the previous scene was playing. Native buttons support keyboard focus and Enter/Space activation. Add the corresponding direct link to the `<noscript>` fallback too.
 
+## Pseudo-View Diagram
+
+The interactive diagram is embedded in `index.html` at `#loop-diagram`, with scoped styling in `loop-diagram.css` and interactions in `loop-diagram.js`. Its mode switch preserves the selected round. The existing full-size cleaning comparison below it is shared rather than duplicated.
+
+The example schedules follow `scripts/difix_common.py::resolve_schedule` in AVSplat-Sim. Cumulative mode cleans all reached offsets; incremental mode cleans only the newest offset. Both retain all earlier bank entries. The final round trains and renders without another cleaning or append stage. The schematic shows the cleaning schedule, not a guarantee of reconstruction quality. If the example changes, update its JSON schedules, labels, and descriptions together.
+
 ## Deployment
 
 The site is served from the root of the `main` branch. Push updates to that branch to publish them without changing the URL.
