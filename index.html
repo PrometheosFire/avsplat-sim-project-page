@@ -12,7 +12,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=DM+Sans:wght@400;500;600;700&family=Newsreader:opsz,wght@6..72,400;6..72,500;6..72,600&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="styles.css">
-  <link rel="stylesheet" href="loop-diagram.css">
+  <link rel="stylesheet" href="loop-diagram.css?v=2">
   <script src="site.js" defer></script>
   <script src="loop-diagram.js" defer></script>
 </head>
@@ -158,11 +158,11 @@
               <fieldset class="mode-toggle">
                 <legend>Cleaning mode</legend>
                 <div class="mode-options">
-                  <label><input type="radio" name="schedule-mode" value="cumulative" checked><span>Cumulative</span></label>
-                  <label><input type="radio" name="schedule-mode" value="incremental"><span>Incremental</span></label>
+                  <label><input type="radio" name="schedule-mode" value="incremental" checked><span>Incremental</span></label>
+                  <label><input type="radio" name="schedule-mode" value="cumulative"><span>Cumulative</span></label>
                 </div>
               </fieldset>
-              <p class="mode-note" id="mode-note" aria-live="polite">Clean every reached offset with the current model. Earlier bank entries remain.</p>
+              <p class="mode-note" id="mode-note" aria-live="polite">Clean only the newest offset. Earlier offsets stay in the bank without being cleaned again.</p>
             </div>
             <div class="round-tabs" role="tablist" aria-label="Training round">
               <button id="round-0" type="button" role="tab" aria-selected="true" aria-controls="round-panel" tabindex="0" data-round="0">Round 0<small>First clean</small></button>
@@ -178,13 +178,13 @@
                     <title id="map-title">Lateral shift curriculum, round 0</title>
                     <desc id="map-description">The recorded path and three shifted copies. Round 0 cleans the minus one meter path; the pseudo-view bank is initially empty.</desc>
                     <defs>
-                      <pattern id="loop-grid" width="28" height="28" patternUnits="userSpaceOnUse"><path d="M 28 0 H 0 V 28" fill="none" stroke="#dce2d8" stroke-width=".6"/></pattern>
+                      <pattern id="loop-grid" width="28" height="28" patternUnits="userSpaceOnUse"><path class="trajectory-grid" d="M 28 0 H 0 V 28"/></pattern>
                       <path id="shift-path-3" d="M70 305 C70 220 98 205 98 155 S70 65 70 15"/>
                       <path id="shift-path-2" d="M210 305 C210 220 238 205 238 155 S210 65 210 15"/>
                       <path id="shift-path-1" d="M350 305 C350 220 378 205 378 155 S350 65 350 15"/>
                     </defs>
                     <rect width="560" height="320" fill="url(#loop-grid)"/>
-                    <path d="M490 305 C490 220 518 205 518 155 S490 65 490 15" fill="none" stroke="#e0e5db" stroke-width="90"/>
+                    <path class="recorded-road" d="M490 305 C490 220 518 205 518 155 S490 65 490 15"/>
                     <use class="trajectory" data-offset="3" href="#shift-path-3"/>
                     <use class="trajectory" data-offset="2" href="#shift-path-2"/>
                     <use class="trajectory cleaning" data-offset="1" href="#shift-path-1"/>
@@ -195,7 +195,7 @@
                     <g data-pose="3"><circle class="pose" cx="72" cy="266" r="5"/><circle class="pose" cx="98" cy="155" r="5"/><circle class="pose" cx="72" cy="52" r="5"/></g>
                     <g data-pose="2"><circle class="pose" cx="212" cy="266" r="5"/><circle class="pose" cx="238" cy="155" r="5"/><circle class="pose" cx="212" cy="52" r="5"/></g>
                     <g data-pose="1"><circle class="pose active-pose" cx="352" cy="266" r="5"/><circle class="pose active-pose" cx="378" cy="155" r="5"/><circle class="pose active-pose" cx="352" cy="52" r="5"/></g>
-                    <g fill="#19221c" stroke="#f7f8f4" stroke-width="2"><circle cx="492" cy="266" r="5"/><circle cx="518" cy="155" r="5"/><circle cx="492" cy="52" r="5"/></g>
+                    <g class="recorded-poses"><circle cx="492" cy="266" r="5"/><circle cx="518" cy="155" r="5"/><circle cx="492" cy="52" r="5"/></g>
                   </svg>
                   <ul class="legend"><li><span class="swatch cleaning"></span>New cleaning</li><li><span class="swatch"></span>Banked earlier</li><li><span class="swatch both"></span>Banked + re-clean</li><li><span class="swatch pending"></span>Not yet banked</li></ul>
                   <figcaption>Forward-camera paths, shown schematically. All offsets are rendered every round. Earlier pseudo-views stay banked when fresh views at the same offset are cleaned.</figcaption>
@@ -219,7 +219,7 @@
                 <p class="return-flow" id="return-flow">Real frames + accumulated bank feed the next round.</p>
               </div>
             </div>
-            <p class="study-note" id="study-note">Example: the default one-sided cumulative curriculum, with a 1 m step and a &minus;3 m target. Earlier offsets are cleaned again at different selected timestamps; all earlier entries remain. Completing the target schedule is not a guarantee of image quality.</p>
+            <p class="study-note" id="study-note">Example: a one-sided incremental curriculum, with a 1 m step and a &minus;3 m target. Only the next offset is cleaned each round; all earlier entries remain. Completing the target schedule is not a guarantee of image quality.</p>
             <script id="round-data" type="application/json">
               {
                 "cumulative": [[-1], [-1, -2], [-1, -2, -3]],

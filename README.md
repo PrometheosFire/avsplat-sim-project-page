@@ -47,7 +47,7 @@ No JavaScript change is required. `site.js` switches the source, poster, accessi
 
 ## Pseudo-View Diagram
 
-The interactive diagram is embedded in `index.html` at `#loop-diagram`, with scoped styling in `loop-diagram.css` and interactions in `loop-diagram.js`. Its mode switch preserves the selected round. The existing full-size cleaning comparison below it is shared rather than duplicated.
+The interactive diagram is embedded in `index.html` at `#loop-diagram`, with scoped styling in `loop-diagram.css` and interactions in `loop-diagram.js`. Incremental is initially selected and appears on the left. Switching modes preserves the selected round. The existing full-size cleaning comparison below it is shared rather than duplicated.
 
 The example schedules follow `scripts/difix_common.py::resolve_schedule` in AVSplat-Sim. Cumulative mode cleans all reached offsets; incremental mode cleans only the newest offset. Both retain all earlier bank entries. The final round trains and renders without another cleaning or append stage. The schematic shows the cleaning schedule, not a guarantee of reconstruction quality. If the example changes, update its JSON schedules, labels, and descriptions together.
 
