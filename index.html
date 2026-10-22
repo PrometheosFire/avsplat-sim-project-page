@@ -12,6 +12,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=DM+Sans:wght@400;500;600;700&family=Newsreader:opsz,wght@6..72,400;6..72,500;6..72,600&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="styles.css">
+  <script src="site.js" defer></script>
 </head>
 <body>
   <header class="site-header">
@@ -21,42 +22,69 @@
         <span>AVSplat-Sim</span>
       </a>
       <nav class="site-nav" aria-label="Main navigation">
-        <a href="#overview">Overview</a>
-        <a href="#videos">Videos</a>
-        <a href="https://github.com/PrometheosFire/AVSplat-Sim" target="_blank" rel="noopener noreferrer">Code</a>
+        <a href="#reconstruction">Scenes</a>
+        <a href="#overview">Abstract</a>
+        <a href="#videos">Features</a>
       </nav>
     </div>
   </header>
 
   <main id="top">
-    <section class="hero page-width" aria-labelledby="page-title">
+    <section class="hero page-width" id="simulation" aria-labelledby="page-title">
       <div class="hero__copy">
         <p class="eyebrow"><span class="eyebrow__rule"></span>MSc Thesis <span class="eyebrow__separator">/</span> Autonomous Driving</p>
         <h1 id="page-title">Photorealistic Closed-Loop Simulation for Autonomous Driving using 3D Gaussian Splatting</h1>
         <p class="hero__author">Dinis Matos <span class="hero__affiliation">Instituto Superior T&eacute;cnico</span></p>
         <p class="hero__supervisors">Supervisors: Prof. Pedro U. Lima and Dr. Pedro Monteiro</p>
         <div class="hero__actions">
-          <a class="button button--primary" href="#videos">View video results</a>
+          <a class="button button--primary" href="#reconstruction">Reconstructed scenes</a>
           <a class="button button--secondary" href="https://github.com/PrometheosFire/AVSplat-Sim" target="_blank" rel="noopener noreferrer">Project code <span aria-hidden="true">&#8599;</span></a>
         </div>
       </div>
 
       <figure class="hero-figure">
-        <video controls playsinline loop preload="none" poster="assets/posters/reconstruction-rig-1.jpg" width="1920" height="722" aria-label="Five-camera reconstruction drive-through">
-          <source src="assets/videos/reconstruction-rig-1.mp4" type="video/mp4">
-          <a href="assets/videos/reconstruction-rig-1.mp4">Download the five-camera reconstruction video.</a>
+        <video controls playsinline preload="none" poster="assets/posters/closed-loop-simulation.jpg" width="1920" height="1080" aria-label="Closed-loop simulation" aria-describedby="simulation-caption">
+          <source src="assets/videos/closed-loop-simulation.mp4" type="video/mp4">
+          <a href="assets/videos/closed-loop-simulation.mp4">Download the simulator recording.</a>
         </video>
-        <figcaption>
-          <span>Five synchronized camera views from one reconstructed drive.</span>
-          <span class="figure-tag">10 FPS | RECORDED DRIVING SPEED</span>
+        <figcaption id="simulation-caption">
+          <span>Closed-loop simulation</span>
+          <span class="figure-tag">ORIGINAL RECORDING SPEED</span>
         </figcaption>
       </figure>
+    </section>
+
+    <section class="reconstruction section-rule" id="reconstruction" aria-labelledby="reconstruction-title">
+      <div class="page-width">
+        <div class="reconstruction__heading">
+          <p class="eyebrow">01 <span class="eyebrow__separator">/</span> Reconstructed scenes</p>
+          <h2 id="reconstruction-title">Five cameras, one reconstruction</h2>
+          <p>Different recorded drives, the same training configuration. Each camera view is rendered from a single shared set of Gaussians.</p>
+        </div>
+
+        <div class="scene-selector" role="group" aria-label="Reconstructed scene">
+          <button type="button" aria-pressed="true" aria-controls="scene-video" data-scene-src="assets/videos/reconstruction-rig-1.mp4" data-scene-poster="assets/posters/reconstruction-rig-1.jpg">Scene 1</button>
+          <button type="button" aria-pressed="false" aria-controls="scene-video" data-scene-src="assets/videos/reconstruction-rig-2.mp4" data-scene-poster="assets/posters/reconstruction-rig-2.jpg">Scene 2</button>
+        </div>
+
+        <figure class="scene-figure">
+          <video id="scene-video" controls playsinline loop preload="none" poster="assets/posters/reconstruction-rig-1.jpg" width="1920" height="722" aria-label="Scene 1: five-camera reconstruction" aria-describedby="scene-caption">
+            <source id="scene-source" src="assets/videos/reconstruction-rig-1.mp4" type="video/mp4">
+            <a id="scene-download" href="assets/videos/reconstruction-rig-1.mp4">Download the selected scene video.</a>
+          </video>
+          <figcaption id="scene-caption"><span id="scene-name" aria-live="polite">Scene 1</span>. Forward-left, forward, and forward-right cameras above; rear-facing side cameras below. Playback follows the recorded driving speed at 10 fps.</figcaption>
+        </figure>
+        <p id="scene-error" class="scene-error" role="status" hidden>Video unavailable. <a id="scene-error-link" href="assets/videos/reconstruction-rig-1.mp4">Open the selected MP4.</a></p>
+        <noscript>
+          <p class="scene-fallback"><a href="assets/videos/reconstruction-rig-1.mp4">Scene 1 video</a> &middot; <a href="assets/videos/reconstruction-rig-2.mp4">Scene 2 video</a></p>
+        </noscript>
+      </div>
     </section>
 
     <section class="abstract section-rule" id="overview" aria-labelledby="abstract-title">
       <div class="abstract__inner page-width">
         <div class="section-label">
-          <p class="eyebrow">01 <span class="eyebrow__separator">/</span> Overview</p>
+          <p class="eyebrow">02 <span class="eyebrow__separator">/</span> Overview</p>
           <h2 id="abstract-title">Abstract</h2>
         </div>
         <div class="abstract__copy">
@@ -82,34 +110,24 @@
     <section class="videos" id="videos" aria-labelledby="videos-title">
       <div class="videos__inner page-width">
         <div class="videos__heading">
-          <p class="eyebrow eyebrow--light">02 <span class="eyebrow__separator">/</span> Supplementary material</p>
-          <h2 id="videos-title">Video results</h2>
-          <p>From a five-camera reconstruction to off-path views and interactive simulation.</p>
+          <p class="eyebrow eyebrow--light">03 <span class="eyebrow__separator">/</span> Pipeline features</p>
+          <h2 id="videos-title">Inside the pipeline</h2>
+          <p>Separate dynamic agents, off-path rendering, and the pseudo-view loop.</p>
         </div>
 
         <nav class="media-nav" aria-label="Video topics">
-          <a href="#reconstruction">Reconstruction</a>
+          <a href="#dynamic-agents">Dynamic agents</a>
           <a href="#pseudo-view-loop">Pseudo-view loop</a>
-          <a href="#simulation">Simulation</a>
         </nav>
 
-        <section class="media-section" id="reconstruction" aria-labelledby="reconstruction-title">
+        <section class="media-section" id="dynamic-agents" aria-labelledby="agents-section-title">
           <div class="media-section__heading">
             <span class="media-section__number">01</span>
             <div>
-              <h3 id="reconstruction-title">Dynamic reconstruction</h3>
-              <p>The drive-through above and the second scene below share the same training configuration. The camera views are rendered from a single set of Gaussians.</p>
+              <h3 id="agents-section-title">Dynamic agents</h3>
+              <p>Tracked vehicles remain separate from the background. They can be repositioned or replaced in the simulator; traffic is controllable rather than reactive, and collision physics is not modeled.</p>
             </div>
           </div>
-
-          <figure class="media-figure">
-            <h4 id="second-scene-title">A second scene, the same camera rig</h4>
-            <video controls playsinline loop preload="none" poster="assets/posters/reconstruction-rig-2.jpg" width="1920" height="722" aria-labelledby="second-scene-title" aria-describedby="second-scene-caption">
-              <source src="assets/videos/reconstruction-rig-2.mp4" type="video/mp4">
-              <a href="assets/videos/reconstruction-rig-2.mp4">Download the second reconstruction video.</a>
-            </video>
-            <figcaption id="second-scene-caption">Forward-left, forward, and forward-right cameras above; rear-facing side cameras below. Playback follows the recorded driving speed at 10 fps.</figcaption>
-          </figure>
 
           <figure class="media-figure">
             <h4 id="agents-title">Vehicles separate from the background</h4>
@@ -164,24 +182,6 @@
           </figure>
         </section>
 
-        <section class="media-section" id="simulation" aria-labelledby="simulation-title">
-          <div class="media-section__heading">
-            <span class="media-section__number">03</span>
-            <div>
-              <h3 id="simulation-title">Closed-loop simulation</h3>
-              <p>The reconstructed scene becomes an interactive simulator with ego control and independently controllable vehicles.</p>
-            </div>
-          </div>
-
-          <figure class="media-figure">
-            <h4 id="simulator-video-title">Inside the simulator</h4>
-            <video controls playsinline preload="none" poster="assets/posters/closed-loop-simulation.jpg" width="1920" height="1080" aria-labelledby="simulator-video-title" aria-describedby="simulator-caption">
-              <source src="assets/videos/closed-loop-simulation.mp4" type="video/mp4">
-              <a href="assets/videos/closed-loop-simulation.mp4">Download the simulator recording.</a>
-            </video>
-            <figcaption id="simulator-caption">A screen recording of the simulator interface, with its original timing preserved. Ego control, scenario authoring, and asset replacement are available in the simulator; traffic is controllable rather than reactive, and collision physics is not modeled.</figcaption>
-          </figure>
-        </section>
       </div>
     </section>
   </main>

@@ -6,7 +6,9 @@ Public URL: https://prometheosfire.github.io/avsplat-sim-project-page/
 
 ## Media
 
-The six videos and cleaning stills come from the thesis presentation `docs/AVSplat-Sim-15min-general-audience.pptx` in the thesis repository. Its source recordings and frame sequences live under `docs/Media/` there. The presentation's synchronized compositions were reused, with panel labels added for the web. The main drive-through appears under the title; the remaining media appear in the three topic sections.
+The six videos and cleaning stills come from the thesis presentation `docs/AVSplat-Sim-15min-general-audience.pptx` in the thesis repository. Its source recordings and frame sequences live under `docs/Media/` there. The presentation's synchronized compositions were reused, with panel labels added for the web.
+
+The page leads with simulation, followed by a shared five-camera scene viewer, the abstract, and the remaining pipeline features. The media-first order and scene buttons take inspiration from the [OmniRe project page](https://ziyc.github.io/omnire/); the page retains its own styling and content.
 
 | Web Asset | Presentation Source | Playback |
 | --- | --- | --- |
@@ -25,6 +27,18 @@ Keep video files in `assets/videos/`, matching poster JPEGs in `assets/posters/`
 The pipeline's source MP4s encode 200 frames at 30 fps (about 6.67 seconds), three times the recorded driving speed. Rebuild from source images at **10 input frames per second**, or retime those MP4s to 20 seconds while retaining all 200 frames. Changing only the output frame rate does not correct playback speed. The presentation's reconstruction clips are already corrected to 10 fps: do not slow them again. Preserve screen-recording timing separately.
 
 Use H.264 video with `yuv420p` pixels and MP4 fast-start metadata for browser playback. Keep each file below GitHub's 100 MB per-file limit. Do not crop the five-camera grids or comparison panels to fit a different aspect ratio.
+
+## Adding a Scene
+
+Add the new MP4 and poster under the existing asset directories, then add a button inside `.scene-selector` in `index.html`, following this pattern with the new files' actual paths:
+
+```html
+<button type="button" aria-pressed="false" aria-controls="scene-video"
+	data-scene-src="assets/videos/reconstruction-rig-3.mp4"
+	data-scene-poster="assets/posters/reconstruction-rig-3.jpg">Scene 3</button>
+```
+
+No JavaScript change is required. `site.js` switches the source, poster, accessible label, selected state, and fallback links. A new scene starts from the beginning; playback resumes only if the previous scene was playing. Native buttons support keyboard focus and Enter/Space activation. Add the corresponding direct link to the `<noscript>` fallback too.
 
 ## Deployment
 
