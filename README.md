@@ -6,19 +6,24 @@ Public URL: https://prometheosfire.github.io/avsplat-sim-project-page/
 
 ## Media
 
-The six videos and cleaning stills come from the thesis presentation `docs/AVSplat-Sim-15min-general-audience.pptx` in the thesis repository. Its source recordings and frame sequences live under `docs/Media/` there. The presentation's synchronized compositions were reused, with panel labels added for the web.
+The original six videos and cleaning stills come from the thesis presentation `docs/AVSplat-Sim-15min-general-audience.pptx` in the thesis repository. Its source recordings and frame sequences live under `docs/Media/` there. The presentation's synchronized compositions were reused, with panel labels added for the web. The additional `scene_099` video is a clean five-camera export from its trained reconstruction checkpoint.
 
 The page leads with simulation, followed by a shared five-camera scene viewer, the abstract, and the remaining pipeline features. The media-first order and scene buttons take inspiration from the [OmniRe project page](https://ziyc.github.io/omnire/); the page retains its own styling and content.
 
 | Web Asset | Presentation Source | Playback |
 | --- | --- | --- |
-| [assets/videos/reconstruction-rig-1.mp4](assets/videos/reconstruction-rig-1.mp4) | Slide 14, embedded `media4.mp4` | 200 frames at 10 fps; 20 s |
-| [assets/videos/reconstruction-rig-2.mp4](assets/videos/reconstruction-rig-2.mp4) | Slide 15, embedded `media5.mp4` | 200 frames at 10 fps; 20 s |
+| [assets/videos/reconstruction-rig-1.mp4](assets/videos/reconstruction-rig-1.mp4) | `scene_021`: slide 14, embedded `media4.mp4` | 200 frames at 10 fps; 20 s |
+| [assets/videos/reconstruction-rig-2.mp4](assets/videos/reconstruction-rig-2.mp4) | `scene_024`: slide 15, embedded `media5.mp4` | 200 frames at 10 fps; 20 s |
+| [assets/videos/scene_099.mp4](assets/videos/scene_099.mp4) | `scene_099`: clean original-trajectory checkpoint export, described below | 200 frames at 10 fps; 20 s |
 | [assets/videos/dynamic-agents.mp4](assets/videos/dynamic-agents.mp4) | Slide 16, embedded `media6.mp4` | 200 frames at 10 fps; 20 s |
 | [assets/videos/lateral-offsets.mp4](assets/videos/lateral-offsets.mp4) | Slide 17, embedded `media7.mp4` | 200 frames at 10 fps; 20 s |
 | [assets/images/shifted-render.jpg](assets/images/shifted-render.jpg), [assets/images/diffusion-cleaned.jpg](assets/images/diffusion-cleaned.jpg) | Slide 18, embedded `image43.png` and `image44.png` | Image-cleaning stage, not retrained renders |
 | [assets/videos/pseudo-view-loop.mp4](assets/videos/pseudo-view-loop.mp4) | Slide 19, embedded `media8.mp4` | 200 frames at 10 fps; 20 s |
-| [assets/videos/closed-loop-simulation.mp4](assets/videos/closed-loop-simulation.mp4) | Slide 20, embedded `media9.mp4` | Screen recording; original timing preserved |
+| [assets/videos/closed-loop-simulation.mp4](assets/videos/closed-loop-simulation.mp4) | Slide 20, embedded `media9.mp4`, first 2 s removed | 295 frames at 179/6 fps; about 9.89 s; original playback speed |
+
+The existing rig clips were matched against the dataset-labeled source frames in `docs/Media/Scene_021/Round_3/full/frames/original/` and `docs/Media/Scene_024/render/full/frames/original/`. The selector uses the dataset IDs rather than presentation-order numbers.
+
+For `scene_099`, the AVSplat-Sim renderer `src/gsplat_training/render_standalone.py` was run with the saved configuration `results/4dgs/wayve101/scene_099/25_rendered_ddd17ed7/.hydra/config.yaml`, overriding `rendering.render_modes=[full]`, `rendering.render.save_video=false`, and the output directory. This reuses the saved checkpoint without retraining and excludes debug boxes. Each of the five cameras has 200 synchronized original-trajectory frames. Camera order is `camera8`, `camera1`, `camera10` above, then `camera7` and `camera9` below, matching the existing rigs. The web composition is 1920 by 722 pixels, encoded from those images at 10 input fps.
 
 ## Updating Media
 
@@ -34,8 +39,8 @@ Add the new MP4 and poster under the existing asset directories, then add a butt
 
 ```html
 <button type="button" aria-pressed="false" aria-controls="scene-video"
-	data-scene-src="assets/videos/reconstruction-rig-3.mp4"
-	data-scene-poster="assets/posters/reconstruction-rig-3.jpg">Scene 3</button>
+			data-scene-src="assets/videos/scene_100.mp4"
+			data-scene-poster="assets/posters/scene_100.jpg">scene_100</button>
 ```
 
 No JavaScript change is required. `site.js` switches the source, poster, accessible label, selected state, and fallback links. A new scene starts from the beginning; playback resumes only if the previous scene was playing. Native buttons support keyboard focus and Enter/Space activation. Add the corresponding direct link to the `<noscript>` fallback too.

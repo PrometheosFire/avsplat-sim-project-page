@@ -63,20 +63,21 @@
         </div>
 
         <div class="scene-selector" role="group" aria-label="Reconstructed scene">
-          <button type="button" aria-pressed="true" aria-controls="scene-video" data-scene-src="assets/videos/reconstruction-rig-1.mp4" data-scene-poster="assets/posters/reconstruction-rig-1.jpg">Scene 1</button>
-          <button type="button" aria-pressed="false" aria-controls="scene-video" data-scene-src="assets/videos/reconstruction-rig-2.mp4" data-scene-poster="assets/posters/reconstruction-rig-2.jpg">Scene 2</button>
+          <button type="button" aria-pressed="true" aria-controls="scene-video" data-scene-src="assets/videos/reconstruction-rig-1.mp4" data-scene-poster="assets/posters/reconstruction-rig-1.jpg">scene_021</button>
+          <button type="button" aria-pressed="false" aria-controls="scene-video" data-scene-src="assets/videos/reconstruction-rig-2.mp4" data-scene-poster="assets/posters/reconstruction-rig-2.jpg">scene_024</button>
+          <button type="button" aria-pressed="false" aria-controls="scene-video" data-scene-src="assets/videos/scene_099.mp4" data-scene-poster="assets/posters/scene_099.jpg">scene_099</button>
         </div>
 
         <figure class="scene-figure">
-          <video id="scene-video" controls playsinline loop preload="none" poster="assets/posters/reconstruction-rig-1.jpg" width="1920" height="722" aria-label="Scene 1: five-camera reconstruction" aria-describedby="scene-caption">
+          <video id="scene-video" controls playsinline loop preload="none" poster="assets/posters/reconstruction-rig-1.jpg" width="1920" height="722" aria-label="scene_021: five-camera reconstruction" aria-describedby="scene-caption">
             <source id="scene-source" src="assets/videos/reconstruction-rig-1.mp4" type="video/mp4">
             <a id="scene-download" href="assets/videos/reconstruction-rig-1.mp4">Download the selected scene video.</a>
           </video>
-          <figcaption id="scene-caption"><span id="scene-name" aria-live="polite">Scene 1</span>. Forward-left, forward, and forward-right cameras above; rear-facing side cameras below. Playback follows the recorded driving speed at 10 fps.</figcaption>
+          <figcaption id="scene-caption"><span id="scene-name" aria-live="polite">scene_021</span>. Forward-left, forward, and forward-right cameras above; rear-facing side cameras below. Playback follows the recorded driving speed at 10 fps.</figcaption>
         </figure>
         <p id="scene-error" class="scene-error" role="status" hidden>Video unavailable. <a id="scene-error-link" href="assets/videos/reconstruction-rig-1.mp4">Open the selected MP4.</a></p>
         <noscript>
-          <p class="scene-fallback"><a href="assets/videos/reconstruction-rig-1.mp4">Scene 1 video</a> &middot; <a href="assets/videos/reconstruction-rig-2.mp4">Scene 2 video</a></p>
+          <p class="scene-fallback"><a href="assets/videos/reconstruction-rig-1.mp4">scene_021 video</a> &middot; <a href="assets/videos/reconstruction-rig-2.mp4">scene_024 video</a> &middot; <a href="assets/videos/scene_099.mp4">scene_099 video</a></p>
         </noscript>
       </div>
     </section>
